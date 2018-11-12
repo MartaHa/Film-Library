@@ -17,16 +17,17 @@ public class Main {
 
 
         /* Making the program work */
-
+        while (true) {
         System.out.println("Hello. What do you want to do:" +
                 "\n Add a film : ADD" +
                 "\n Show all films : ALL" +
                 "\n Show a film : SHOW" +///
                 "\n update a film : UPDATE" +
                 "\n delete a film : DELETE" +
+                "\n delete all database : DELETEALL" +
                 "\n quit : Q");
 
-        while (true) {
+
             String answer = "";
             try {
                 answer = scanner.next();
@@ -145,6 +146,9 @@ public class Main {
                     System.out.println("That is not a proper value Try again");
 
                 }
+            } else if (answer.equals("DELETEALL")) {
+                dao.deleteAll();
+
             } else if (answer.equals("Q")) {
                 System.out.println("Goodbye!");
                 break;

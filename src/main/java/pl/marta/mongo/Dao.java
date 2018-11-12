@@ -150,4 +150,21 @@ public class Dao {
 
     }
 
+    String deleteAll(){
+        try {
+            /* Creating a connection with Mongo */
+            MongoClient mongoClient = new MongoClient("localhost", 27017);
+
+            /* fetching/creating a table */
+
+            DB database = mongoClient.getDB("films");
+            DBCollection table = database.getCollection("film");
+
+            table.drop();
+        }catch (MongoException e){
+            e.printStackTrace();
+        }
+        return "Database deleted";
+    }
+
 }
