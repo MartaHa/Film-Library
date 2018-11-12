@@ -7,8 +7,7 @@ import java.util.*;
 
 public class Dao {
 
-
-
+    
     /* Add film */
 
     public String addFilm(String title, String yearOfRelease, String director, String category, LocalDate created) {
@@ -47,7 +46,7 @@ public class Dao {
         DB database = mongoClient.getDB("films");
         DBCollection table = database.getCollection("film");
 
-         /*getting all documents from the collection*/
+        /*getting all documents from the collection*/
 
         List<DBObject> allFilms = table.find().toArray();
         return allFilms;
@@ -80,18 +79,52 @@ public class Dao {
         }
         return filmAtributes;
     }
-    //search document where title=?
 
-//        BasicDBObject query = new BasicDBObject();
-//        query.put("title", title);
-//
-//        BasicDBObject newDocument = new BasicDBObject();
-//        newDocument.put("name", "mkyong-updated");
-//
-//        BasicDBObject updateObj = new BasicDBObject();
-//        updateObj.put("$set", newDocument);
-//
-//        table.update(query, updateObj);
 
+    public String updateFilm(String title, String toChange, String changed) {
+
+        /* Creating a connection with Mongo */
+        MongoClient mongoClient = new MongoClient("localhost", 27017);
+
+        /* fetching/creating a table */
+
+        DB database = mongoClient.getDB("films");
+        DBCollection table = database.getCollection("film");
+
+
+        // creating a document with updated data
+
+        BasicDBObject updatedDocument = new BasicDBObject();
+        updatedDocument.put(toChange, changed);
+
+
+        //search document where title=?
+
+        BasicDBObject searchQuery = new BasicDBObject();
+        searchQuery.put("title", title);
+
+        table.update(searchQuery, updatedDocument);
+        return "The film" + title + " has been updated succesfully";
+    }
+
+    public String delete(String title) {
+
+        /* Creating a connection with Mongo */
+        MongoClient mongoClient = new MongoClient("localhost", 27017);
+
+        /* fetching/creating a table */
+
+        DB database = mongoClient.getDB("films");
+        DBCollection table = database.getCollection("film");
+
+        //search document where title=?
+
+        BasicDBObject searchQuery = new BasicDBObject();
+        searchQuery.put("title", title);
+
+        table.remove(searchQuery);
+        return "Film: " + title + " has been deleted";
+
+    }
 
 }
